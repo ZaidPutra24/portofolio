@@ -54,7 +54,13 @@ export default function FileUpload({ label, type, value, onChange }: FileUploadP
       });
 
       setProgress(90);
-      const data = await res.json();
+      let data;
+      const textResponse = await res.text();
+      try {
+        data = JSON.parse(textResponse);
+      } catch (parseErr) {
+        throw new Error(`Server returned non-JSON response (${res.status}): ${textResponse.substring(0, 100)}`);
+      }
 
       if (!res.ok) {
         throw new Error(data.detail || 'Upload failed');
