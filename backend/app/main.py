@@ -32,6 +32,17 @@ except Exception:
     os.makedirs("uploads/cv", exist_ok=True)
     uploads_dir = "uploads"
 
+# Automatically create database tables and seed initial data if needed
+try:
+    from app.core.database import Base, engine
+    Base.metadata.create_all(bind=engine)
+    
+    # Auto-seed initial data
+    from seed import seed_data
+    seed_data()
+except Exception as e:
+    print(f"Auto database migration/seed notice: {e}")
+
 # Mount static files for uploads
 if os.path.exists("uploads"):
     app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
