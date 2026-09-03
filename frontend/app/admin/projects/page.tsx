@@ -60,7 +60,7 @@ export default function AdminProjectsPage() {
   } = useAdminForm(initialProjectForm);
 
   const fetchProjects = async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     try {
       const res = await fetch(`${apiUrl}/api/v1/projects`);
       if (res.ok) {
@@ -153,7 +153,7 @@ export default function AdminProjectsPage() {
     setShowConfirm(false);
     setSaving(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {
@@ -190,7 +190,7 @@ export default function AdminProjectsPage() {
 
   const handleDelete = async (id: number, title: string) => {
     if (!confirmDelete(title)) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {

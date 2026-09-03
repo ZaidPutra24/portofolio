@@ -87,7 +87,7 @@ export default function AdminExperiencePage() {
   } = useAdminForm(initialExperienceForm);
 
   const fetchData = async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     try {
       const [expRes, skillRes] = await Promise.all([
         fetch(`${apiUrl}/api/v1/experiences`),
@@ -219,7 +219,7 @@ export default function AdminExperiencePage() {
     setShowConfirm(false);
     setSaving(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
 
     try {
       const url = editingExpId !== null
@@ -263,7 +263,7 @@ export default function AdminExperiencePage() {
 
   const handleDelete = async (id: number, title: string, org: string) => {
     if (!confirmDelete(`${title} at ${org}`)) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
 
     try {
       const res = await adminApiFetch(`${apiUrl}/api/v1/experiences/${id}`, {

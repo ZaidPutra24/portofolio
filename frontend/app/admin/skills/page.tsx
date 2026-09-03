@@ -52,7 +52,7 @@ export default function AdminSkillsPage() {
   const [showSkillConfirm, setShowSkillConfirm] = useState(false);
 
   const fetchSkills = useCallback(async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     try {
       const res = await fetch(`${apiUrl}/api/v1/skills`);
       if (res.ok) {
@@ -128,7 +128,7 @@ export default function AdminSkillsPage() {
     setShowCatConfirm(false);
     setSavingCat(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {
@@ -184,7 +184,7 @@ export default function AdminSkillsPage() {
     setShowSkillConfirm(false);
     setSavingSkill(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {
@@ -226,7 +226,7 @@ export default function AdminSkillsPage() {
 
   const handleDeleteCategory = async (catId: number, catName: string) => {
     if (!confirmDelete(`Category: ${catName}`)) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {
@@ -246,7 +246,7 @@ export default function AdminSkillsPage() {
 
   const handleDeleteSkill = async (skillId: number, skillName: string) => {
     if (!confirmDelete(`Skill: ${skillName}`)) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {

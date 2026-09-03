@@ -21,7 +21,7 @@ export default function AdminMessagesPage() {
   const [statusMsg, setStatusMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const fetchMessages = useCallback(async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
     try {
       const res = await fetch(`${apiUrl}/api/v1/contact/messages`, {
@@ -44,7 +44,7 @@ export default function AdminMessagesPage() {
 
   const handleDelete = async (id: number, subject: string, sender: string) => {
     if (!confirmDelete(`message "${subject}" from ${sender}`)) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {

@@ -22,7 +22,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     async function fetchStats() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
       const token = localStorage.getItem('admin_token');
 
       try {

@@ -19,7 +19,7 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     async function fetchSettings() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
       try {
         const res = await fetch(`${apiUrl}/api/v1/settings`);
         if (res.ok) {
@@ -58,7 +58,7 @@ export default function AdminSettingsPage() {
     setSavingKey(key);
     setMessage(null);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {
