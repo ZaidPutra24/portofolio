@@ -31,7 +31,13 @@ export default function AdminLoginPage() {
         body: formData.toString(),
       });
 
-      const data = await res.json();
+      const textResponse = await res.text();
+      let data;
+      try {
+        data = JSON.parse(textResponse);
+      } catch {
+        throw new Error(`API returned invalid response (Status ${res.status}). Ensure Backend DB is connected.`);
+      }
 
       if (!res.ok) {
         throw new Error(data.detail || 'Invalid email or password');
