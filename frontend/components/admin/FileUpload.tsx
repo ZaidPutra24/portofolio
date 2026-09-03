@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Upload, X, CheckCircle2, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils';
-import { upload } from '@vercel/blob/client';
 
 interface FileUploadProps {
   label: string;
@@ -42,46 +41,27 @@ export default function FileUpload({ label, type, value, onChange }: FileUploadP
 
     try {
       setProgress(50);
-      // Upload directly to Vercel Blob Storage
-      const newBlob = await upload(file.name, file, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
       });
 
+      setProgress(80);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
       setProgress(100);
-      onChange(newBlob.url);
+      onChange(data.url);
       setSuccessMsg('File uploaded successfully to Vercel Blob!');
     } catch (err: unknown) {
-      // Fallback to legacy FastAPI upload endpoint if Vercel Blob isn't configured
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
-        const token = localStorage.getItem('admin_token');
-
-        const res = await fetch(`${apiUrl}${endpointMap[type]}`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        });
-
-        const textResponse = await res.text();
-        let data;
-        try {
-          data = JSON.parse(textResponse);
-        } catch {
-          throw new Error(err instanceof Error ? err.message : 'Upload failed');
-        }
-
-        if (!res.ok) throw new Error(data.detail || 'Upload failed');
-
-        setProgress(100);
-        onChange(data.url);
-        setSuccessMsg('File uploaded successfully!');
-      } catch (fallbackErr: unknown) {
-        const errorMessage = fallbackErr instanceof Error ? fallbackErr.message : 'Error uploading file';
-        setError(errorMessage);
-      }
+      const errorMessage = err instanceof Error ? err.message : 'Error uploading file';
+      setError(errorMessage);
     } finally {
       setUploading(false);
       setTimeout(() => setProgress(0), 1500);
