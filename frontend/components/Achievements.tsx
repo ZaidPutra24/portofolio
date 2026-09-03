@@ -96,7 +96,7 @@ export default function Achievements() {
   // Fetch Achievements from API
   useEffect(() => {
     async function fetchAch() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
       try {
         const res = await fetch(`${apiUrl}/api/v1/academic/achievements`);
         if (res.ok) {

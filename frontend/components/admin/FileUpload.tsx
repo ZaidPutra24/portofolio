@@ -40,7 +40,7 @@ export default function FileUpload({ label, type, value, onChange }: FileUploadP
     const formData = new FormData();
     formData.append('file', file);
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const token = localStorage.getItem('admin_token');
 
     try {

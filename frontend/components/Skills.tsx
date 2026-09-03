@@ -92,7 +92,7 @@ export default function Skills() {
 
   useEffect(() => {
     async function fetchSkills() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
       try {
         const res = await fetch(`${apiUrl}/api/v1/skills`);
         if (res.ok) {

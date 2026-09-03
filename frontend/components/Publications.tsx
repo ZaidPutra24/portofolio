@@ -751,7 +751,7 @@ export default function Publications() {
 
   useEffect(() => {
     async function fetchPubs() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
       try {
         const res = await fetch(`${apiUrl}/api/v1/academic/publications`);
         if (res.ok) {
