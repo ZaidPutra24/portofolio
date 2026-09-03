@@ -20,13 +20,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ensure uploads directory exists
-os.makedirs("uploads/projects", exist_ok=True)
-os.makedirs("uploads/certificates", exist_ok=True)
-os.makedirs("uploads/cv", exist_ok=True)
+# Ensure uploads directory exists safely on serverless environments
+try:
+    os.makedirs("/tmp/uploads/projects", exist_ok=True)
+    os.makedirs("/tmp/uploads/certificates", exist_ok=True)
+    os.makedirs("/tmp/uploads/cv", exist_ok=True)
+    uploads_dir = "/tmp/uploads"
+except Exception:
+    os.makedirs("uploads/projects", exist_ok=True)
+    os.makedirs("uploads/certificates", exist_ok=True)
+    os.makedirs("uploads/cv", exist_ok=True)
+    uploads_dir = "uploads"
 
 # Mount static files for uploads
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+if os.path.exists("uploads"):
+    app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+elif os.path.exists("/tmp/uploads"):
+    app.mount("/uploads", StaticFiles(directory="/tmp/uploads"), name="uploads")
 
 # Include API routers
 app.include_router(auth.router, prefix="/api/v1")
