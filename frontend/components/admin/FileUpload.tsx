@@ -16,6 +16,8 @@ export default function FileUpload({ label, type, value, onChange }: FileUploadP
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [manualUrl, setManualUrl] = useState('');
 
   const endpointMap = {
     project: '/api/v1/upload/project',
@@ -163,6 +165,49 @@ export default function FileUpload({ label, type, value, onChange }: FileUploadP
           <CheckCircle2 className="w-3.5 h-3.5" /> {successMsg}
         </p>
       )}
+
+      {/* Manual URL Fallback Input for Serverless Hosting */}
+      <div className="pt-1">
+        {!showUrlInput ? (
+          <button
+            type="button"
+            onClick={() => setShowUrlInput(true)}
+            className="text-[11px] text-blue-600 hover:underline inline-block font-medium"
+          >
+            + Or enter Image/PDF direct URL (Recommended for Vercel)
+          </button>
+        ) : (
+          <div className="flex items-center gap-2 mt-1">
+            <input
+              type="url"
+              placeholder="https://images.unsplash.com/... or https://i.imgur.com/..."
+              value={manualUrl}
+              onChange={(e) => setManualUrl(e.target.value)}
+              className="flex-1 px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-800 focus:outline-none focus:border-blue-600"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (manualUrl.trim()) {
+                  onChange(manualUrl.trim());
+                  setShowUrlInput(false);
+                  setManualUrl('');
+                }
+              }}
+              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold transition-colors"
+            >
+              Apply
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowUrlInput(false)}
+              className="p-1.5 text-slate-500 hover:text-slate-700"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
