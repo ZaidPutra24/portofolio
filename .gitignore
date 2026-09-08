@@ -7,8 +7,14 @@ out/
 # Python / Backend
 __pycache__/
 *.py[cod]
+*.pyc
 venv/
+.venv/
 .env
+.env.*
+!.env.example
+backend/.env
+frontend/.env.local
 
 # OS / IDE
 .DS_Store
