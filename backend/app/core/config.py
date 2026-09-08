@@ -47,7 +47,7 @@ class Settings(BaseSettings):
         return url
 
     class Config:
-        env_file = ".env"
+        env_file = ("backend/.env", ".env")
         extra = "ignore"
 
 settings = Settings()
